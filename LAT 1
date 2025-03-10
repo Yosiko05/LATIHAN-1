@@ -1,0 +1,64 @@
+
+#Fungsi untuk membuat struktur menu dari data yang diberikan
+def buat_menu(data):
+    menu = {}
+
+    for id, parent, label in data:
+        menu[id] = {'label': label, 'anak': []}  
+
+    hasil = []  
+
+    for id, parent, _ in data:
+        if parent == 0:
+            hasil.append(menu[id])  
+        else:
+            try:
+                menu[parent]['anak'].append(menu[id])  
+            except KeyError:
+                print(f"⚠ Kesalahan: Parent dengan ID {parent} tidak ditemukan!")
+
+    return hasil  
+
+# Fungsi untuk mencetak menu dengan format hirarki
+def cetak_menu(menu, indent=0):
+    for i in menu:
+        print(" " * indent + i['label'])  
+        cetak_menu(i['anak'], indent + 4) 
+
+
+while True:
+    try:
+        n = int(input("Jumlah menu: "))  
+        break
+    except ValueError:
+        print("⚠ Masukkan angka yang valid!")
+
+data = []
+id_terpakai = set() 
+
+# Meminta input data menu dari pengguna
+for _ in range(n):
+    while True:
+        try:
+            id = int(input("ID: ")) 
+            if id in id_terpakai:
+                print(f"ID {id} sudah digunakan! Masukkan ID lain.")
+                continue
+            break
+        except ValueError:
+            print("ID harus berupa angka!")
+
+    id_terpakai.add(id)  
+
+    while True:
+        try:
+            parent = int(input("Parent: ")) 
+            break
+        except ValueError:
+            print(" Parent harus berupa angka!")
+
+    label = input("Label: ")
+    data.append((id, parent, label))  
+
+print("\nStruktur Menu:")
+cetak_menu(buat_menu(data))
