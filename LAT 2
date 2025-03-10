@@ -1,0 +1,21 @@
+
+def palindrom(b):
+    if len(b) <= 1:
+        return True  
+    
+    elif not b[0].isalpha():
+        return palindrom(b[1:])  
+    
+    elif not b[-1].isalpha():
+        return palindrom(b[:-1]) 
+    
+    elif b[0] == b[-1]:
+        return palindrom(b[1:-1])  
+    
+    return False  
+
+a = input("Masukkan Kata: ").lower().replace(" ", "")  
+if palindrom(a):
+    print("Palindrom")
+else:
+    print("Bukan Palindrom")
